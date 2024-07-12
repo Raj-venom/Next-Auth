@@ -23,7 +23,7 @@ export async function POST(request: NextRequest) {
         const { username, email, password } = reqBody;
 
         // validate fields
-        if ([username, email, password].some((item) => item === "" && item === undefined)) {
+        if ([username, email, password].some((field) => field === "" || field?.trim() == undefined)) {
             return NextResponse.json({ error: "All field are required" }, { status: 400 })
         }
 
