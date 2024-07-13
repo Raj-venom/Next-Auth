@@ -23,6 +23,10 @@ export async function POST(request: NextRequest) {
             return NextResponse.json({ error: "Email not registerd" }, { status: 400 })
         }
 
+        if (!user.isVerfied) {
+            return NextResponse.json({ error: "verify email first" }, { status: 400 })
+        }
+
         const validateUser = await bcrypt.compare(password, user.password)
 
         if (!validateUser) {
@@ -31,9 +35,13 @@ export async function POST(request: NextRequest) {
 
         const token = jwt.sign({ id: user._id }, process.env.SECRETE_KEY!, { expiresIn: '1d' })
 
+        // remove password from response
+        user.password = undefined;
+
         const response = NextResponse.json({
             message: "Logged in Sucessfully",
-            success: true
+            success: true,
+            user
         }, { status: 200 })
 
         response.cookies.set("token", token, {

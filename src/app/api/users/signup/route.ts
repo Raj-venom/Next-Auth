@@ -58,7 +58,7 @@ export async function POST(request: NextRequest) {
         savedUser.password = undefined
 
         return NextResponse.json({
-            status: 200,
+            status: 201,
             message: "User created successfully",
             success: true,
             savedUser
