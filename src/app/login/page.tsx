@@ -24,6 +24,7 @@ function signupPage() {
             if (response.data) {
                 console.log("Logged in");
                 toast.success("Login sucess")
+                router.push("/profile")
 
 
             }
